@@ -15,9 +15,9 @@ var Stack = function() {
   someInstance.pop = function() {
     // Remove and return the string on the top of the stack
 
-    var temp = someInstance[sz-1];
+    var temp = someInstance[sz - 1];
     
-    if (delete someInstance[sz-1]) {
+    if (delete someInstance[sz - 1]) {
       if (sz > 0) {
         sz--;
       }
