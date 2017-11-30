@@ -16,13 +16,16 @@ stackMethods.push = function(val) {
 };
 
 stackMethods.pop = function() {
-
+  var temp = this[this.sz - 1];
+  
+  if (temp) {
+    delete this[this.sz - 1];
+    this.sz--;
+    return temp;
+  }
 };
 
 stackMethods.size = function() {
   return this.sz;
 };
-
-// var st = Stack();
-// st.push(5)
 
