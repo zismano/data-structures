@@ -4,12 +4,23 @@ var LinkedList = function() {
   list.tail = null;
 
   list.addToTail = function(value) {
+    // if (!head) then head is newNode
+    // else we need to connect to last tail
+    // newNode will always become tail
   };
 
   list.removeHead = function() {
+  // removes the first node from the list and returns its value
+  // create temp var that will be value of current head
+  // list.head will be head.next
+  // return temp
   };
 
   list.contains = function(target) {
+    // returns boolean reflecting whether or not the passed-in value is in the linked list
+    // var node is head of list
+    // do node evaluation vs passed-in value while node is not equal to null
+    // if match return true else at the end of iteration return false
   };
 
   return list;
