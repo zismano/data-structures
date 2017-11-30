@@ -3,6 +3,7 @@ var LinkedList = function() {
   list.head = null;
   list.tail = null;
 
+  // running time O(1)
   list.addToTail = function(value) {
     var newTail = Node(value);
     // if (!head) then head is newNode
@@ -16,6 +17,7 @@ var LinkedList = function() {
     list.tail = newTail;
   };
 
+  // running time O(1)
   list.removeHead = function() {
     // removes the first node from the list and returns its value
     if (list.head === null) {
@@ -29,6 +31,7 @@ var LinkedList = function() {
     return head.value;
   };
 
+  // running time O(n)
   list.contains = function(target) {
     // returns boolean reflecting whether or not the passed-in value is in the linked list
     // var node is head of list
