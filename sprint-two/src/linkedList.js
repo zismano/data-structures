@@ -17,17 +17,28 @@ var LinkedList = function() {
   };
 
   list.removeHead = function() {
-  // removes the first node from the list and returns its value
-  // create temp var that will be value of current head
-  // list.head will be head.next
-  // return temp
+    // removes the first node from the list and returns its value
+    // create temp var that will be value of current head
+    var head = list.head;
+    // list.head will be head.next
+    list.head = list.head.next;
+    // return temp
+    return head.value;
   };
 
   list.contains = function(target) {
     // returns boolean reflecting whether or not the passed-in value is in the linked list
     // var node is head of list
+    var node = list.head;
     // do node evaluation vs passed-in value while node is not equal to null
-    // if match return true else at the end of iteration return false
+    do {
+      // if match return true else at the end of iteration return false
+      if (node.value === target) {
+        return true;
+      }
+      node = node.next;
+    } while (node);
+    return false;
   };
 
   return list;
