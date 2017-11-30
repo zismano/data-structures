@@ -9,13 +9,20 @@ var Queue = function() {
 var queueMethods = {};
 
 queueMethods.enqueue = function(val) {
-  // this[this.sz] = val;
-  // this.sz++;
+  for (var i = this.sz; i > 0; i--) {
+    this[i] = this[i - 1];
+  }
+  this[0] = val;
+  this.sz++;
 };
 
 queueMethods.dequeue = function() {
   var temp = this[this.sz - 1];
-  //if (temp)
+  if (temp) {
+    delete this[this.sz - 1];
+    this.sz--;
+    return temp;
+  }
 };
 
 queueMethods.size = function() {
