@@ -4,9 +4,16 @@ var LinkedList = function() {
   list.tail = null;
 
   list.addToTail = function(value) {
+    var newTail = Node(value);
     // if (!head) then head is newNode
-    // else we need to connect to last tail
+    if (!list.head) {
+      list.head = newTail;
+    } else {
+      // else we need to connect to last tail
+      list.tail.next = newTail;
+    }
     // newNode will always become tail
+    list.tail = newTail;
   };
 
   list.removeHead = function() {
