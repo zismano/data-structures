@@ -18,6 +18,9 @@ var LinkedList = function() {
 
   list.removeHead = function() {
     // removes the first node from the list and returns its value
+    if (list.head === null) {
+      return null;
+    }
     // create temp var that will be value of current head
     var head = list.head;
     // list.head will be head.next

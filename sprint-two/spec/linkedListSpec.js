@@ -29,6 +29,8 @@ describe('linkedList', function() {
     expect(linkedList.head.value).to.equal(4);
     linkedList.removeHead();
     expect(linkedList.head.value).to.equal(5);
+    linkedList.removeHead();
+    expect(linkedList.head).to.equal(null);
   });
 
   it('should return the value of the former head when removeHead is called', function() {
@@ -52,4 +54,7 @@ describe('linkedList', function() {
   });
 
   // add more tests here to test the functionality of linkedList
+  it('should return null when there is no head to remove', function() {
+    expect(linkedList.removeHead()).to.equal(null);
+  });
 });
