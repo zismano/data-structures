@@ -3,17 +3,44 @@ var Tree = function(value) {
   newTree.value = value;
 
   // your code here
-  newTree.children = null;  // fix me
-
+  newTree.children = [];  // fix me
+  // extend methods from treeMethods to newTree
+  _.extend(newTree, treeMethods);
   return newTree;
 };
 
 var treeMethods = {};
 
+// Running time of O(1)
 treeMethods.addChild = function(value) {
+  // takes any value, sets that as the target of a node, and adds that node as a child of the tree
+  // push value to given tree
+  var newChild = Tree(value);
+  this.children.push(newChild);
 };
 
+// Running time of O(n)
 treeMethods.contains = function(target) {
+  // takes any input and returns a boolean reflecting whether it can be found as the value of the target node or any descendant node
+  var found = false;
+
+  var checkContains = function(obj, target) {
+    // if node is target, return true
+    if (obj.value === target) {
+      found = true;
+    } 
+    // if not, does node have children
+    if (obj.children.length) {
+    // yes, apply method on each child
+      for (var i = 0; i < obj.children.length && !found; i++) {
+        // call recursive func
+        checkContains(obj.children[i], target);      
+      }
+    } 
+    return found;
+  };
+  // invoke recursive func
+  return checkContains(this, target);
 };
 
 
