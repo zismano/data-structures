@@ -1,42 +1,43 @@
-
-
 var HashTable = function() {
   this._limit = 8;
   this._storage = LimitedArray(this._limit);
+  // track tuple count
+  this.tupleCt = 0;
 };
 
 HashTable.prototype.insert = function(k, v) {
+  // takes key into hash function and creates an index
   var index = getIndexBelowMaxForKey(k, this._limit);
-  // for each i in array
-  //  if index === i
-  //  get elem from index
-  // if elem !== undefined
-  //  link elem next to newNode
-  var newNode = {val: v, next: null};
-  
-  this._storage.set(index, v);
+  // create new tuple = [k, v]
+  // check this.set[index] is undefined
+    // if so, create new bucket
+      // push new tuple to new bucket 
+    // else, push new tuple to existing bucket
+  // tupleCt++
+  // check if tupleCt/limit > 75%
+  //  if so, create new array and push all tuples in
+      // delete all buckets
+      // multiply limit by 2
+      // insert all tuples
 };
 
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  return this._storage.get(index);
+  var buckets = this.get[index];
+  for (var i = 0; i < buckets.length; i++) {
+    if (buckets[i][0] === k) {
+      return buckets[i][1];
+    }
+  }
+  return false;
 };
 
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  this._storage.each(function(val, key, storageArr) {
-    if (index === key) {
-      storageArr.splice(key, 1);
-    }
-  });
 };
 
-// insert method
-//  set(ind, {head: new
-//            tail: new})
+
 
 /*
  * Complexity: What is the time complexity of the above functions?
  */
-
-
