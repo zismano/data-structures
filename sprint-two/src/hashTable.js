@@ -5,6 +5,7 @@ var HashTable = function() {
   this.tupleCt = 0;
 };
 
+// Complexity is constant, worse case is linear
 HashTable.prototype.insert = function(k, v) {
   // takes key into hash function and creates an index
   var index = getIndexBelowMaxForKey(k, this._limit);
@@ -37,6 +38,7 @@ HashTable.prototype.insert = function(k, v) {
   }
 };
 
+// Complexity is linear
 HashTable.prototype.reallocateTuples = function(slope) {
   var allTuples = [];  
   this._storage.each(function(bucket) {
@@ -49,7 +51,6 @@ HashTable.prototype.reallocateTuples = function(slope) {
   });
   this.tupleCt = 0;
   this._limit *= slope === 'increase' ? 2 : 0.5;
-
   this._storage = LimitedArray(this._limit);
   var hashT = this;
   _.each(allTuples, function(item) {
@@ -57,6 +58,7 @@ HashTable.prototype.reallocateTuples = function(slope) {
   }); 
 }; 
 
+// Complexity is constant, worst case is linear
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   var buckets = this._storage.get(index);
@@ -68,6 +70,7 @@ HashTable.prototype.retrieve = function(k) {
   return undefined;
 };
 
+// Complexity is constant, worst case is linear
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   // get buckets of storage's index
