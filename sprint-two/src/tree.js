@@ -100,6 +100,22 @@ treeMethods.findNumOfChildren = function(target) {
   return numOfChildren(this);
 };
 
+//logs the nodes contained in the tree using a breadth-first approach
+treeMethods.breadthFirstLog = function() {
+  // root = this.children[0]
+  // push root to qeueue
+  var nodesQueue = [this.children[0]];
+  // for loop until end of queue
+  for (var i = 0; i < nodesQueue.length; i++) {
+  //  if root has children
+    if (nodesQueue[i].children) {
+      // concat children to queue
+      nodesQueue = nodesQueue.concat(nodesQueue[i].children);
+    }
+    // log elements' value in queue
+    console.log(nodesQueue[i].value);
+  }
+};
 /*
  * Complexity: What is the time complexity of the above functions?
  */
