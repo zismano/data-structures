@@ -89,4 +89,13 @@ describe('tree', function() {
     expect(tree.contains(101)).to.equal(true); 
   });
 
+  it ('should log values of tree in breadth first order', function() {
+    tree.addChild(5);
+    tree.children[0].addChild(1);
+    tree.children[0].addChild(2);
+    tree.children[0].children[0].addChild(3);
+    tree.children[0].children[0].addChild(4);
+    tree.breadthFirstLog();
+  });
+
 });
