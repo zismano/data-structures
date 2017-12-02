@@ -49,4 +49,44 @@ describe('tree', function() {
     expect(tree.findNumOfChildren(5)).to.equal(2);
   });
 
+  it ('should add a parent value to each child node', function() {
+    tree.addChild(5);
+    tree.children[0].addChild(1);
+    tree.children[0].addChild(2);
+    expect(tree.children[0].parent.value).to.eql(undefined);  // root of parent has value of undefined
+    expect(tree.children[0].children[1].parent.value).to.equal(5);
+  });
+
+  it ('disassociates the tree with its parent (in both directions)', function() {
+    tree.addChild(5);
+    tree.children[0].addChild(1);
+    tree.children[0].addChild(2);
+    tree.children[0].children[0].addChild(3);
+    tree.children[0].children[0].addChild(4);
+    tree.removeFromParent(1);
+    expect(tree.contains(1)).to.equal(false);
+    expect(tree.contains(3)).to.equal(false);
+    expect(tree.contains(4)).to.equal(false);
+    expect(tree.contains(5)).to.equal(true);
+    expect(tree.contains(2)).to.equal(true);
+  });
+
+  it ('should add 1 to each value of node in tree', function() {
+    tree.addChild(5);
+    tree.children[0].addChild(1);
+    tree.children[0].addChild(10);
+    tree.children[0].children[0].addChild(20);
+    tree.children[0].children[0].addChild(100);
+    tree.traverse(function(value) {
+      return ++value;
+    });
+    expect(tree.contains(6)).to.equal(true);
+    expect(tree.contains(2)).to.equal(true);
+    expect(tree.contains(11)).to.equal(true);
+    expect(tree.contains(21)).to.equal(true);
+    expect(tree.contains(10)).to.equal(false); 
+    expect(tree.contains(100)).to.equal(false);
+    expect(tree.contains(101)).to.equal(true); 
+  });
+
 });
