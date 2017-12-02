@@ -3,9 +3,10 @@ var Tree = function(value) {
   newTree.value = value;
 
   // refers to the parent node or null when there is no node
-  newTree.parent = // fix me
+  newTree.parent = null;
   // your code here
-  newTree.children = [];  // fix me
+  newTree.children = [];
+  newTree.valueHolder = null;
   // extend methods from treeMethods to newTree
   _.extend(newTree, treeMethods);
   return newTree;
@@ -14,8 +15,33 @@ var Tree = function(value) {
 var treeMethods = {};
 
 // disassociates the tree with its parent (in both directions)
-treeMethods.removeFromParent = function() {
+treeMethods.removeFromParent = function(value) {
+  // find parent of child
+  if (this.contains(value)) {
+    let parentsChildren = this.valueHolder.parent.children;
+    // remove child from parent's children list
+    let index = parentsChildren.indexOf(this.valueHolder);
+    parentsChildren.splice(index, 1);
+  // return children of child
+    return parentsChildren;
+  }
+};
 
+// should accept a callback and execute it on every value contained in the tree
+treeMethods.traverse = function(cb) {
+  // if this.value
+  if (this.value) {
+    // call cb on this.value
+    this.value = cb(this.value);
+  }
+  // if tree has children
+  if (this.children.length) {
+    // for each child
+    this.children.forEach(function(child) {
+      // call recursive function
+      child.traverse(cb);
+    }); 
+  }
 };
 
 // Running time of O(1)
@@ -23,6 +49,7 @@ treeMethods.addChild = function(value) {
   // takes any value, sets that as the target of a node, and adds that node as a child of the tree
   // push value to given tree
   var newChild = Tree(value);
+  newChild.parent = this;
   this.children.push(newChild);
 };
 
@@ -30,11 +57,13 @@ treeMethods.addChild = function(value) {
 treeMethods.contains = function(target) {
   // takes any input and returns a boolean reflecting whether it can be found as the value of the target node or any descendant node
   var found = false;
+  var cur = this;
 
   var checkContains = function(obj) {
     // if node is target, return true
     if (obj.value === target) {
       found = true;
+      cur.valueHolder = obj;
     } 
     // if not, does node have children
     if (obj.children.length) {
