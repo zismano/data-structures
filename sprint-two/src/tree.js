@@ -2,6 +2,8 @@ var Tree = function(value) {
   var newTree = {};
   newTree.value = value;
 
+  // refers to the parent node or null when there is no node
+  newTree.parent = // fix me
   // your code here
   newTree.children = [];  // fix me
   // extend methods from treeMethods to newTree
@@ -10,6 +12,11 @@ var Tree = function(value) {
 };
 
 var treeMethods = {};
+
+// disassociates the tree with its parent (in both directions)
+treeMethods.removeFromParent = function() {
+
+};
 
 // Running time of O(1)
 treeMethods.addChild = function(value) {
