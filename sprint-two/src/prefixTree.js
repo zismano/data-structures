@@ -3,17 +3,35 @@
 // specs: search for, insert, and delete entries
 
 // create a directory
+let Node = function() {
+  this.keys = new Map();
+  this.end = false;
+};
+Trie = new Map();
+
 
 // add string to directory:
-  // directory will create a folder for the first character of the string if it does not exist
-  // proceed into folder
-  // check the next character of the string
-  // check if there is a folder for that character
-  // create a folder for the character if it does not exist
-  // proceed into the folder
-  // repeat the folder creating / move into procees until the final character is reached
-  // for the final character a folder will be created if it does not exist
-  // either way the folder will be marked with a star to indicate the end of the string (word)
+Trie.prototype.insert = function(str) {
+  // iterate on every character of string
+  for (var i = 0; i < str.length; i++) {
+    addChar(str[i]);
+  }
+
+  var addChar = function(c) {
+    // directory will create a folder for the first character of the string if it does not exist
+    if (!this.has(c)) {
+      this.set(c, new Map());
+    }
+    // proceed into folder and check the next character of the string
+    this.get(c);
+    // check if there is a folder for that character
+    // create a folder for the character if it does not exist
+    // proceed into the folder
+    // repeat the folder creating / move into procees until the final character is reached
+    // for the final character a folder will be created if it does not exist
+    // either way the folder will be marked with a star to indicate the end of the string (word)
+  };
+};
 
 // search for a string
   // iterate on each character of string starting at i equal to 0
