@@ -31,7 +31,7 @@ treeMethods.contains = function(target) {
   // takes any input and returns a boolean reflecting whether it can be found as the value of the target node or any descendant node
   var found = false;
 
-  var checkContains = function(obj, target) {
+  var checkContains = function(obj) {
     // if node is target, return true
     if (obj.value === target) {
       found = true;
@@ -47,10 +47,29 @@ treeMethods.contains = function(target) {
     return found;
   };
   // invoke recursive func
-  return checkContains(this, target);
+  return checkContains(this);
 };
 
+// 
+treeMethods.findNumOfChildren = function(target) {
 
+  var numChildren;
+
+  var numOfChildren = function(obj) {
+    // if obj.value is target
+    if (obj.value === target) {
+    // store length array of obj.children
+      numChildren = obj.children.length;
+    // else, call recursive function for each one of obj children 
+    } else {
+      for (var i = 0; i < obj.children.length; i++) {
+        numOfChildren(obj.children[i], target);
+      }
+    }
+    return numChildren;
+  };
+  return numOfChildren(this);
+};
 
 /*
  * Complexity: What is the time complexity of the above functions?
