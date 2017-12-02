@@ -1,5 +1,6 @@
 var HashTable = function() {
   this._limit = 8;
+  this._size = 0;
   this._storage = LimitedArray(this._limit);
   // track tuple count
   this.tupleCt = 0;
@@ -91,7 +92,6 @@ HashTable.prototype.remove = function(k) {
     this.reallocateTuples('decrease');
   }
 };
-
 
 
 /*
