@@ -57,4 +57,11 @@ describe('linkedList', function() {
   it('should return null when there is no head to remove', function() {
     expect(linkedList.removeHead()).to.equal(null);
   });
+
+  it('should add a value after a given value', function() {
+    linkedList.addToTail(10);
+    linkedList.addToTail(5);
+    linkedList.addValueBeforeValue(10, 100);
+    expect(linkedList.contains(100)).to.equal(true);
+  });
 });

@@ -47,6 +47,18 @@ var LinkedList = function() {
     return false;
   };
 
+  // added a function to additional test 
+  list.addValueBeforeValue = function(previousValue, newValue) {
+    var newNode = Node(newValue);
+    for (var head = list.head; head.value === previousValue; head = head.next) {
+      if (head.value === previousValue) {
+        newNode.next = head.next;
+        head.next = newNode;  
+        break;     
+      }   
+    }
+  };
+
   return list;
 };
 
