@@ -1,88 +1,84 @@
-
-
 var HashTable = function() {
   this._limit = 8;
   this._size = 0;
   this._storage = LimitedArray(this._limit);
+  // track tuple count
+  this.tupleCt = 0;
 };
 
 HashTable.prototype.insert = function(k, v) {
+  // takes key into hash function and creates an index
   var index = getIndexBelowMaxForKey(k, this._limit);
-  var newNode = {
-    key: k,
-    val: v,
-    next: null
-  };
-
-
-  var obj = this;
+  // create new tuple = [k, v]
+  var newTuple = [k, v];
   var bucket = this._storage.get(index);
-
-  var search = function(bucket) {
-    if (bucket === undefined) {
-      obj._storage.set(index, newNode);
-      obj._size++;
-      if (Math.round(obj._size / obj._limit * 10000) / 100 >= 75) {
-        obj._limit *= 2;
-      }
-      console.log((Math.round(obj._size / obj._limit * 10000) / 100 + 'and' + obj._limit));
-    } else {
-      if (bucket.key === k) {
-        bucket.val = v;
-      } else if (bucket.next === null) {
-        bucket.next = newNode;
-      } else {
-        search(bucket.next);
+  // check this.get[index] is undefined
+  if (bucket === undefined) {
+    // if so, create new bucket        // push new tuple to new bucket 
+    this._storage.set(index, [newTuple]);
+  } else {
+    // else, push new tuple to existing bucket
+    var notFound = true;
+    for (var i = 0; i < bucket.length && notFound; i++) {
+      if (bucket[i][0] === k) {
+        notFound = false;
+        bucket[i][1] = v;
       }
     }
-  };
-
-  search(bucket);
+    if (notFound) {
+      bucket.push(newTuple);   
+    }
+  }
+  // increase tuple counter  
+  this.tupleCt++;
+  // check if tupleCt/limit > 75%
+  if (this.tupleCt / this._limit * 100 >= 75) {
+    //  if so, create new array and push all tuples in
+    reallocateTuples('increase'); 
+  }
 };
+
+var reallocateTuples = function(slope) {
+  var allTuples = [];  
+  this._storage.each(function(bucket) {
+    bucket.each(function(tuple) {
+      allTuples.push(tuple);
+    });
+    bucket = [];
+  });
+  this._limit *= slope === 'increase' ? 2 : 0.5;
+  var hashT = this;
+  _.each(allTuples, function(item) {
+    hashT.insert(item[0], item[1]);
+  }); 
+}; 
 
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  var bucket = this._storage.get(index);
-
-  if (!bucket) {
-    return undefined;
-  }
-
-  var search = function(bucket) {
-    if (bucket.key === k) {
-      return bucket.val;
-    } else {
-      if (bucket.next !== null) {
-        return search(bucket.next);
-      }
+  var buckets = this._storage.get(index);
+  for (var i = 0; i < buckets.length; i++) {
+    if (buckets[i][0] === k) {
+      return buckets[i][1];
     }
-  };
-
-  return search(bucket);
+  }
+  return false;
 };
 
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  var bucket = this._storage.get(index);
-  if (bucket !== undefined) {
-    if (bucket.next === null) {
-      index = getIndexBelowMaxForKey(k, this._limit);
-      this._storage.set(index, undefined);
-      this._size--;
-      if (Math.round(this._size / this._limit * 10000) / 100 <= 25) {
-        this._limit /= 2;
-      }
-      console.log(Math.round(this._size / this._limit * 10000) / 100 + 'and' + this._limit);
-    } else {
-      index = getIndexBelowMaxForKey(k, this._limit);
-      this._storage.set(index, bucket.next);
-      console.log(Math.round(this._size / this._limit * 10000) / 100 + 'and' + this._limit);
-    }
-  }
+  // get buckets of storage's index
+  // iterate on buckets array to find tuple with k key
+  // pop tuple from bucket
+  // decrease tuple counter
+  // check if ratio tuples and storage length is less than 25%
+  // if so, create new array and push all tuples in
+  // delete all buckets
+  // divide limit by 2
+  // insert all tuples
+
 };
+
 
 /*
  * Complexity: What is the time complexity of the above functions?
  */
-
-
