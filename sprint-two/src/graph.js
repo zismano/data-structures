@@ -83,6 +83,19 @@ Graph.prototype.forEachNode = function(cb) {
   });
 };
 
+// Finds number of nodes in graph
+Graph.prototype.findNumberOfNodes = function() {
+  var count = 0;
+
+  // iterate over keys in graph
+  for (var key in this) {
+    // check only keys with val property (since, it iterates over prototype.methods)
+    if (this[key].val) {
+      count++;
+    }
+  }
+  return count;
+};
 /*
  * Complexity: What is the time complexity of the above functions?
  */

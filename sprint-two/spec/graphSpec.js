@@ -58,7 +58,6 @@ describe('graph', function() {
     var connectToFive = function(item) {
       graph.addEdge(item, 5);
     };
-  //  debugger;
     graph.addNode(5);
     graph.addNode(2);
     graph.addNode(1);
@@ -74,12 +73,21 @@ describe('graph', function() {
     var connectToFive = function(item) {
       console.log(graph[item].val);
     };
-  //  debugger;
     graph.addNode(5);
     graph.addNode(2);
     graph.addNode(1);
     graph.addNode(3);
     graph.forEachNode(connectToFive);
-
+  });
+  
+  it('should find number of nodes in graph', function() {
+    graph.addNode(2);
+    graph.addNode(1);
+    graph.addNode(3);
+    graph.addEdge(3, 2);
+    graph.addNode(4);
+    graph.addNode(5);
+    graph.addEdge(5, 4);
+    expect(graph.findNumberOfNodes()).to.equal(5);
   });  
 });
