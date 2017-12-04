@@ -1,5 +1,3 @@
-
-
 // Instantiate a new graph
 var Graph = function() {
 };
@@ -20,32 +18,24 @@ Graph.prototype.addNode = function(node) {
 // complexity is linear
 // Return a boolean value indicating if the value passed to contains is represented in the graph.
 Graph.prototype.contains = function(node) {
-  if (this.hasOwnProperty(String(node))) {
-    return true;  
-  }
-  return false;
-};
+  return this.hasOwnProperty(node);
+}
 
 // complexity is linear
 // Removes a node from the graph.
 Graph.prototype.removeNode = function(node) {
   // depending on type of container used we may need to locate the node
   // once located delete node from the graph
-  var key = node;
-  var obj = this;
-  _.each(this[key].connection, function(neighborNode) {
-    obj.removeEdge(neighborNode, node);
+  _.each(this[node].connection, neighborNode => {
+    this.removeEdge(neighborNode, node);
   });
-  delete this[key];
+  delete this[node];
 };
 
 // complexity is linear
 // Returns a boolean indicating whether two specified nodes are connected.  Pass in the values contained in each of the two nodes.
 Graph.prototype.hasEdge = function(fromNode, toNode) {
-  if (_.contains(this[fromNode].connection, toNode)) {
-    return true;
-  }
-  return false;
+  return _.contains(this[fromNode].connection, toNode);
 };
 
 // complexity is constant
@@ -61,24 +51,29 @@ Graph.prototype.addEdge = function(fromNode, toNode) {
 // Remove an edge between any two specified (by value) nodes.
 Graph.prototype.removeEdge = function(fromNode, toNode) {
   // Remove fromNode from the connection list of toNode
-  var indexOfNode = this[fromNode].connection.indexOf(toNode);
-  if (indexOfNode !== -1) {
-    this[fromNode].connection.splice(indexOfNode, 1);
-  }
-  indexOfNode = this[toNode].connection.indexOf(fromNode);
-  if (indexOfNode !== -1) {
-    this[toNode].connection.splice(indexOfNode, 1);
-  }  
-  // Remove toNode from the connection list of fromNode
+  removedEdgeFromNodesConnections(this, fromNode, toNode);
+  removedEdgeFromNodesConnections(this, toNode, fromNode);
 };
+
+  function removedEdgeFromNodesConnections(obj, fromNode, toNode) {
+    // get connections of fromNode
+    var nodesConnections = obj[fromNode].connection;
+    // check if toNode is in fromNode connections
+    var indexOfNode = nodesConnections.indexOf(toNode);
+    // if toNode is in fromNode connections
+    if (indexOfNode !== -1) {
+      // delete toNode from fromNode connections
+      nodesConnections.splice(indexOfNode, 1);
+      obj[fromNode].connection = nodesConnections;
+    }   
+  };  
 
 // complexity depends on complexity of cb function
 // Pass in a callback which will be executed on each node of the graph.
 Graph.prototype.forEachNode = function(cb) {
   // Iterate through all the nodes contained in Graph
   // Invoke the callback function once per item w/ item as the argument
-  var obj = this;
-  _.each(obj, function(val, key) {
+  _.each(this, function(val, key) {
     cb(key);
   });
 };
@@ -86,11 +81,10 @@ Graph.prototype.forEachNode = function(cb) {
 // Finds number of nodes in graph
 Graph.prototype.findNumberOfNodes = function() {
   var count = 0;
-
   // iterate over keys in graph
-  for (var key in this) {
-    // check only keys with val property (since, it iterates over prototype.methods)
-    if (this[key].val) {
+  for (var node in this) {
+    // check only keys with val property (since, it iterates also over prototype.methods)
+    if (this[node].val) {
       count++;
     }
   }
