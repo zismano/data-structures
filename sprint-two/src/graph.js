@@ -19,7 +19,7 @@ Graph.prototype.addNode = function(node) {
 // Return a boolean value indicating if the value passed to contains is represented in the graph.
 Graph.prototype.contains = function(node) {
   return this.hasOwnProperty(node);
-}
+};
 
 // complexity is linear
 // Removes a node from the graph.
@@ -55,18 +55,18 @@ Graph.prototype.removeEdge = function(fromNode, toNode) {
   removedEdgeFromNodesConnections(this, toNode, fromNode);
 };
 
-  function removedEdgeFromNodesConnections(obj, fromNode, toNode) {
-    // get connections of fromNode
-    var nodesConnections = obj[fromNode].connection;
-    // check if toNode is in fromNode connections
-    var indexOfNode = nodesConnections.indexOf(toNode);
-    // if toNode is in fromNode connections
-    if (indexOfNode !== -1) {
-      // delete toNode from fromNode connections
-      nodesConnections.splice(indexOfNode, 1);
-      obj[fromNode].connection = nodesConnections;
-    }   
-  };  
+var removedEdgeFromNodesConnections = function(obj, fromNode, toNode) {
+  // get connections of fromNode
+  var nodesConnections = obj[fromNode].connection;
+  // check if toNode is in fromNode connections
+  var indexOfNode = nodesConnections.indexOf(toNode);
+  // if toNode is in fromNode connections
+  if (indexOfNode !== -1) {
+    // delete toNode from fromNode connections
+    nodesConnections.splice(indexOfNode, 1);
+    obj[fromNode].connection = nodesConnections;
+  }   
+};  
 
 // complexity depends on complexity of cb function
 // Pass in a callback which will be executed on each node of the graph.
